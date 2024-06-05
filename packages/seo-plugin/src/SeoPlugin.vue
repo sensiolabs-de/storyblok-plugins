@@ -91,8 +91,9 @@ watch(() => plugin.type, () => {
 
   if (plugin?.data?.content && plugin?.data?.content !== '') {
     data.value = JSON.parse(JSON.stringify(plugin?.data?.content as Data))
-    currentTab.value = 0
   }
+
+  currentTab.value = 0
 
   requirements.value = plugin?.data?.options?.requirements ? JSON.parse(plugin?.data?.options?.requirements) : undefined
   defaults.value = plugin?.data?.options?.defaults ? JSON.parse(plugin?.data?.options?.defaults) : undefined
