@@ -62,9 +62,6 @@
       <div
         v-if="icons.length > 0"
         class="grid"
-        style="
-            background-color: #f5f5f5;
-          "
       >
         <SbButton
             v-for="icon in icons"
@@ -86,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, watch} from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { Icon } from '@iconify/vue'
 import axios from 'axios'
 import { useFieldPlugin } from '@storyblok/field-plugin/vue3'
@@ -105,7 +102,7 @@ watch(query, () => {
 
   const url = new URL('https://api.iconify.design/search')
   url.searchParams.set('query', query.value)
-  url.searchParams.set('prefixes', 'fa-solid,fa-regular')
+  url.searchParams.set('prefixes', 'fa-solid,fa-regular,fa-brands')
 
   loading.value = true
 
@@ -117,6 +114,12 @@ watch(query, () => {
 })
 
 const selected = ref<string>('')
+const prefixes = ref<string>('')
+
+watch(plugin, () => {
+  selected.value = plugin?.data?.content as string ?? ''
+  prefixes.value = plugin?.data?.options?.prefixes ?? ''
+})
 
 const setIcon = (icon: string): void => {
   selected.value = icon
