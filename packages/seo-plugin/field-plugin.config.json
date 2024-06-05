@@ -1,4 +1,12 @@
 {
   "options": [
+    {
+      "name": "requirements",
+      "value": "{\"title\":{\"required\":true},\"description\":{\"required\":true},\"ogTitle\":{\"required\":false,\"maxLength\":70},\"ogDescription\":{\"required\":false,\"maxLength\":200},\"twitterTitle\":{\"required\":false,\"maxLength\":70},\"twitterDescription\":{\"required\":false,\"maxLength\":200},\"twitterSite\":{\"required\":false},\"twitterCreator\":{\"required\":false},\"twitterCard\":{\"required\":false}}"
+    },
+    {
+      "name": "defaults",
+      "value": "{\"twitterSite\":\"@sensiolabs\"}"
+    }
   ]
 }

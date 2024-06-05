@@ -28,21 +28,18 @@
     <SbCardContent>
       <metadata-form
         v-if="currentTab === 0"
-        v-model="data.global"
+        v-model="data"
         :requirements="requirements"
-        :defaults="defaults"
       />
       <og-metadata-form
         v-else-if="currentTab === 1"
-        v-model="data.openGraph"
+        v-model="data"
         :requirements="requirements"
-        :defaults="defaults"
       />
       <twitter-metadata-form
         v-else-if="currentTab === 2"
-        v-model="data.twitter"
+        v-model="data"
         :requirements="requirements"
-        :defaults="defaults"
       />
     </SbCardContent>
   </SbCard>
@@ -61,28 +58,45 @@ const currentTab = ref()
 
 const plugin = useFieldPlugin()
 
-const data = ref<Data>({
-  global: {
-    title: '',
-    description: '',
-  },
-  openGraph: {
-    title: '',
-    description: '',
-    image: null,
-  },
-  twitter: {
-    title: '',
-    description: '',
-    image: null,
-    site: null,
-    creator: null,
-    card: 'summary',
+const setDefaults = (value: Data, defaults?: Defaults): Data => {
+  const inner: Data = Object.assign({}, value)
+
+  if (!defaults) {
+    return inner
   }
+
+  const keys = Object.keys(defaults)
+
+  for (const key of keys) {
+    if (!Object.hasOwn(inner, key)) {
+      continue
+    }
+
+    // @ts-ignore
+    if (!inner[key]) {
+      // @ts-ignore
+      inner[key] = defaults[key]
+    }
+  }
+
+  return inner
+}
+
+const data = ref<Data>({
+    title: '',
+    description: '',
+    ogTitle: '',
+    ogDescription: '',
+    ogImage: null,
+    twitterTitle: '',
+    twitterDescription: '',
+    twitterImage: null,
+    twitterSite: null,
+    twitterCreator: null,
+    twitterCard: 'summary',
 })
 
 const requirements = ref<Requirements>()
-const defaults = ref<Defaults>()
 
 watch(() => plugin.type, () => {
   if (plugin.type !== 'loaded') {
@@ -96,7 +110,9 @@ watch(() => plugin.type, () => {
   currentTab.value = 0
 
   requirements.value = plugin?.data?.options?.requirements ? JSON.parse(plugin?.data?.options?.requirements) : undefined
-  defaults.value = plugin?.data?.options?.defaults ? JSON.parse(plugin?.data?.options?.defaults) : undefined
+  const defaults = plugin?.data?.options?.defaults ? JSON.parse(plugin?.data?.options?.defaults) : undefined
+
+  data.value = setDefaults(data.value, defaults)
 })
 
 watch(data, () => plugin.actions?.setContent(JSON.parse(JSON.stringify(data.value))), {deep: true})

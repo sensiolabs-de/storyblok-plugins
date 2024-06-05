@@ -1,67 +1,67 @@
 <template>
   <div class="sb-mt-4">
     <SbAssetField
-      v-model="value.image"
+      v-model="value.twitterImage"
     />
   </div>
   <div class="sb-mt-8 sb-mb-6">
     <SbRadio
       label="Summary"
       name="card"
-      :required="requirements?.twitter?.card?.required ?? false"
-      v-model="value.card"
+      :required="requirements?.twitterCard?.required ?? false"
+      v-model="value.twitterCard"
       native-value="summary"
     />
     <div class="sb-mt-4">
       <SbRadio
         label="Summary with large image"
         name="card"
-        v-model="value.card"
+        v-model="value.twitterCard"
         native-value="summary_large_image"
       />
     </div>
   </div>
   <div class="sb-mt-4">
     <SbTextField
-      name="title"
+      name="twitterTitle"
       label="Title"
-      :required="requirements?.twitter?.title?.required ?? false"
-      v-model="value.title"
-      :maxlength="requirements?.twitter?.title?.maxLength ?? null"
+      :required="requirements?.twitterTitle?.required ?? false"
+      v-model="value.twitterTitle"
+      :maxlength="requirements?.twitterTitle?.maxLength ?? null"
     />
   </div>
   <div class="sb-mt-4">
     <SbTextField
-      name="description"
+      name="twitterDescription"
       label="Description"
-      :required="requirements?.twitter?.description?.required ?? false"
-      v-model="value.description"
-      :maxlength="requirements?.twitter?.description?.maxLength ?? null"
+      :required="requirements?.twitterDescription?.required ?? false"
+      v-model="value.twitterDescription"
+      :maxlength="requirements?.twitterDescription?.maxLength ?? null"
       :auto-grow="true"
       type="textarea"
     />
   </div>
   <div class="sb-mt-4">
     <SbTextField
-      name="site"
+      name="twitterSite"
       label="Site"
       prefix="@"
-      :required="requirements?.twitter?.site?.required ?? false"
-      v-model="value.site"
+      :required="requirements?.twitterSite?.required ?? false"
+      v-model="value.twitterSite"
       placeholder="SensioLabs"
-      :maxlength="requirements?.twitter?.site?.maxLength ?? null"
+      :maxlength="requirements?.twitterSite?.maxLength ?? null"
       mask="X*"
     />
   </div>
   <div class="sb-mt-4">
     <SbTextField
-      name="creator"
+      name="twitterCreator"
       label="Creator"
       prefix="@"
-      :required="requirements?.twitter?.creator?.required ?? false"
-      v-model="value.creator"
+      :required="requirements?.twitterCreator?.required ?? false"
+      v-model="value.twitterCreator"
       placeholder="JohnDoe"
-      :maxlength="requirements?.twitter?.creator?.maxLength ?? null"
+      :maxlength="requirements?.twitterCreator?.maxLength ?? null"
       mask="X*"
     />
   </div>
@@ -69,35 +69,16 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { type Defaults, type Requirements, type TwitterMetadata } from '../interfaces/metadata'
+import { type Data, type Requirements } from '../interfaces/metadata'
 import SbAssetField from './SbAssetField.vue'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps<{
-  modelValue: TwitterMetadata,
+  modelValue: Data,
   requirements?: Requirements
-  defaults?: Defaults
 }>()
 
-const prepare = (value: TwitterMetadata): TwitterMetadata => {
-  const inner : TwitterMetadata = Object.assign({}, value)
-
-  if (props.defaults?.twitter) {
-    const keys = Object.keys(props.defaults.twitter)
-    for (const key of keys) {
-      if (!Object.hasOwn(inner, key)) {
-        continue
-      }
-
-      // @ts-ignore
-      inner[key] = props.defaults?.twitter[key]
-    }
-  }
-
-  return inner
-}
-
-const value = ref<TwitterMetadata>(prepare(props.modelValue))
+const value = ref<Data>(props.modelValue)
 
 watch(value, () => emit('update:modelValue', value.value), { deep: true })
 </script>

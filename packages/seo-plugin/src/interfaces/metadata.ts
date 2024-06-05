@@ -1,25 +1,17 @@
 import { Asset } from '@storyblok/field-plugin'
 
-export interface Metadata {
+export interface Data {
   title: string
   description: string
-}
-
-export interface OpenGraphMetadata extends Metadata {
-  image: Asset | null
-}
-
-export interface TwitterMetadata extends Metadata {
-  image: Asset | null
-  site: string | null
-  creator: string | null
-  card: string
-}
-
-export interface Data {
-  global: Metadata
-  openGraph: OpenGraphMetadata
-  twitter: TwitterMetadata
+  ogTitle: string
+  ogDescription: string
+  ogImage: Asset | null
+  twitterTitle: string
+  twitterDescription: string
+  twitterImage: Asset | null
+  twitterSite: string | null
+  twitterCreator: string | null
+  twitterCard: string
 }
 
 export interface FieldRequirement {
@@ -28,13 +20,9 @@ export interface FieldRequirement {
 }
 
 export interface Requirements {
-  [key: string]: {
-    [key: string]: FieldRequirement
-  }
+  [key: string]: FieldRequirement
 }
 
 export interface Defaults {
-  [key: string]: {
-    [key: string]: string|null|boolean|number
-  }
+  [key: string]: string|null|boolean|number
 }

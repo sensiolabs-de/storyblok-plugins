@@ -3,18 +3,18 @@
     <SbTextField
       name="title"
       label="Title"
-      :required="requirements?.global?.title?.required ?? false"
+      :required="requirements?.title?.required ?? false"
       v-model="value.title"
-      :maxlength="requirements?.global?.title?.maxLength ?? null"
+      :maxlength="requirements?.title?.maxLength ?? null"
     />
   </div>
   <div class="sb-mt-4">
     <SbTextField
       name="description"
       label="Description"
-      :required="requirements?.global?.description?.required ?? false"
+      :required="requirements?.description?.required ?? false"
       v-model="value.description"
-      :maxlength="requirements?.global?.description?.maxLength ?? null"
+      :maxlength="requirements?.description?.maxLength ?? null"
       :auto-grow="true"
       type="textarea"
     />
@@ -23,34 +23,15 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { type Defaults, type Metadata, type Requirements } from '../interfaces/metadata'
+import { type Data, type Requirements } from '../interfaces/metadata'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps<{
-  modelValue: Metadata,
+  modelValue: Data,
   requirements?: Requirements,
-  defaults?: Defaults
 }>()
 
-const prepare = (value: Metadata): Metadata => {
-  const inner : Metadata = Object.assign({}, value)
-
-  if (props.defaults?.global) {
-    const keys = Object.keys(props.defaults.global)
-    for (const key of keys) {
-      if (!Object.hasOwn(inner, key)) {
-        continue
-      }
-
-      // @ts-ignore
-      inner[key] = props.defaults?.global[key]
-    }
-  }
-
-  return inner
-}
-
-const value = ref(prepare(props.modelValue))
+const value = ref<Data>(props.modelValue)
 
 watch(value, () => emit('update:modelValue', value.value), { deep: true })
 </script>
