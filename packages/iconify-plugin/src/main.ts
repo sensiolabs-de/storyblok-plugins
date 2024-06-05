@@ -1,6 +1,7 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+import {createApp, Plugin} from 'vue'
+import IconifyPlugin from './IconifyPlugin.vue'
+import '@storyblok/design-system/dist/storyblok-design-system.css'
+import BlokInk from '@storyblok/design-system'
 
 if (!document.querySelector('#app')) {
   // In production, `#app` may or may not exist.
@@ -8,7 +9,9 @@ if (!document.querySelector('#app')) {
   rootElement.id = 'app'
   document.body.appendChild(rootElement)
 }
-createApp(App).mount('#app')
+createApp(IconifyPlugin)
+  .use(BlokInk as Plugin)
+  .mount('#app')
 
 // This error replaces another error which message is harder to understand and impossible to avoid util the issue https://github.com/storyblok/field-plugin/issues/107 has been resolved.
 throw new Error(
