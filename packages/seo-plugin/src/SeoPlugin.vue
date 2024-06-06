@@ -1,9 +1,9 @@
 <template>
   <SbTabMenu
     :model="[
-      {label: 'Global', action: () => (currentTab = 0)},
-      {label: 'Open graph', action: () => (currentTab = 1)},
-      {label: 'Twitter/ X', action: () => (currentTab = 2)},
+      { label: 'Global', action: () => (currentTab = 0) },
+      { label: 'Open graph', action: () => (currentTab = 1) },
+      { label: 'Twitter/ X', action: () => (currentTab = 2) },
     ]"
     :activeIndex="currentTab"
   >
@@ -13,18 +13,14 @@
         href="#"
         role="menuitem"
         class="sb-tab-menu__action sb-tab-menu__slot-item"
-        style="
-          color: black;
-        "
+        style="color: black"
       >
         {{ item.label }}
       </a>
     </template>
   </SbTabMenu>
 
-  <SbCard
-    as="div"
-  >
+  <SbCard as="div">
     <SbCardContent>
       <metadata-form
         v-if="currentTab === 0"
@@ -43,7 +39,6 @@
       />
     </SbCardContent>
   </SbCard>
-
 </template>
 
 <script setup lang="ts">
@@ -52,7 +47,11 @@ import { useFieldPlugin } from '@storyblok/field-plugin/vue3'
 import MetadataForm from './components/MetadataForm.vue'
 import OgMetadataForm from './components/OgMetadataForm.vue'
 import TwitterMetadataForm from './components/TwitterMetadataForm.vue'
-import { type Data, type Defaults, type Requirements } from './interfaces/metadata'
+import {
+  type Data,
+  type Defaults,
+  type Requirements,
+} from './interfaces/metadata'
 
 const currentTab = ref()
 
@@ -83,38 +82,48 @@ const setDefaults = (value: Data, defaults?: Defaults): Data => {
 }
 
 const data = ref<Data>({
-    title: '',
-    description: '',
-    ogTitle: '',
-    ogDescription: '',
-    ogImage: null,
-    twitterTitle: '',
-    twitterDescription: '',
-    twitterImage: null,
-    twitterSite: null,
-    twitterCreator: null,
-    twitterCard: 'summary',
+  title: '',
+  description: '',
+  ogTitle: '',
+  ogDescription: '',
+  ogImage: null,
+  twitterTitle: '',
+  twitterDescription: '',
+  twitterImage: null,
+  twitterSite: null,
+  twitterCreator: null,
+  twitterCard: 'summary',
 })
 
 const requirements = ref<Requirements>()
 
-watch(() => plugin.type, () => {
-  if (plugin.type !== 'loaded') {
-    return
-  }
+watch(
+  () => plugin.type,
+  () => {
+    if (plugin.type !== 'loaded') {
+      return
+    }
 
-  if (plugin?.data?.content && plugin?.data?.content !== '') {
-    data.value = JSON.parse(JSON.stringify(plugin?.data?.content as Data))
-  }
+    if (plugin?.data?.content && plugin?.data?.content !== '') {
+      data.value = JSON.parse(JSON.stringify(plugin?.data?.content as Data))
+    }
 
-  currentTab.value = 0
+    currentTab.value = 0
 
-  requirements.value = plugin?.data?.options?.requirements ? JSON.parse(plugin?.data?.options?.requirements) : undefined
-  const defaults = plugin?.data?.options?.defaults ? JSON.parse(plugin?.data?.options?.defaults) : undefined
+    requirements.value = plugin?.data?.options?.requirements
+      ? JSON.parse(plugin?.data?.options?.requirements)
+      : undefined
+    const defaults = plugin?.data?.options?.defaults
+      ? JSON.parse(plugin?.data?.options?.defaults)
+      : undefined
 
-  data.value = setDefaults(data.value, defaults)
-})
+    data.value = setDefaults(data.value, defaults)
+  },
+)
 
-watch(data, () => plugin.actions?.setContent(JSON.parse(JSON.stringify(data.value))), {deep: true})
-
+watch(
+  data,
+  () => plugin.actions?.setContent(JSON.parse(JSON.stringify(data.value))),
+  { deep: true },
+)
 </script>

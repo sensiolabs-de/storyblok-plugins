@@ -1,54 +1,49 @@
 <template>
+  <div
+    v-if="value"
+    style="
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+      justify-items: center;
+      align-items: center;
+    "
+  >
     <div
-      v-if="value"
       style="
-        display: flex;
-        flex-direction: row;
-        gap: 2rem;
-        justify-items: center;
-        align-items: center;
+        width: 128px;
+        height: 128px;
+        display: grid;
+        place-content: center;
+        overflow: hidden;
       "
     >
-      <div
-        style="
-          width: 128px;
-          height: 128px;
-          display: grid;
-          place-content: center;
-          overflow: hidden;
-      "
-      >
-        <img
-          :src="value.filename"
-          style="
-            max-width: 100%;
-            object-fit: contain;
-          "
-        />
-      </div>
-      <div>
-        <SbGroupButton
-          :has-spaces="false"
-          size="small"
-          variant="tertiary"
-        >
-          <SbButton
-            variant="primary"
-            icon="upload"
-            label="Change Image"
-            @click.stop="selectAsset"
-          />
-          <SbButton
-            icon="x"
-            @click.stop="value = null"
-            has-icon-only
-          />
-        </SbGroupButton>
-      </div>
+      <img
+        :src="value.filename"
+        style="max-width: 100%; object-fit: contain"
+      />
     </div>
-  <div
-    v-else
-  >
+    <div>
+      <SbGroupButton
+        :has-spaces="false"
+        size="small"
+        variant="tertiary"
+      >
+        <SbButton
+          variant="primary"
+          icon="upload"
+          label="Change Image"
+          @click.stop="selectAsset"
+        />
+        <SbButton
+          icon="x"
+          @click.stop="value = null"
+          has-icon-only
+        />
+      </SbGroupButton>
+    </div>
+  </div>
+  <div v-else>
     <SbButton
       variant="primary"
       icon="upload"
@@ -67,15 +62,16 @@ const plugin = useFieldPlugin()
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps<{
-  modelValue: Asset|null,
+  modelValue: Asset | null
 }>()
 
-const value = ref<Asset|null>(props.modelValue)
+const value = ref<Asset | null>(props.modelValue)
 
 const selectAsset = (): void => {
-  plugin?.actions?.selectAsset()
-    .then((asset) => (value.value = asset))
+  plugin?.actions?.selectAsset().then((asset) => (value.value = asset))
 }
 
-watch(value, () => emit('update:modelValue', Object.assign({}, value.value)), { deep: true })
+watch(value, () => emit('update:modelValue', Object.assign({}, value.value)), {
+  deep: true,
+})
 </script>

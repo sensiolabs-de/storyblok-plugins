@@ -1,88 +1,88 @@
-# Storyblok Vue 3 Field Plugin
+# sensiolabs-iconify-plugin
 
-This project was created using Vue 3 and Typescript. It consists of a set of base functionalities, such as value updating, modal toggling and asset selection. This starter is intended to help developers when creating their own Storyblok Field Plugin.
+![preview.gif](docs/preview.gif)
 
-## Composition API vs Options API
+This project was created using Vue 3 and TypeScript. It consists of a set of base functionalities, such as value updating, modal toggling, and asset selection. This starter is intended to help developers when creating their own Storyblok Field Plugin.
 
-You can choose either option. This template is written using the Composition API, and you can view the implementation in the `src/useFieldPlugin.ts` file.
+## Table of Contents
 
-If you prefer to use the Options API, you can refer to [the Vue 2 template](https://github.com/storyblok/field-plugin/blob/main/packages/cli/templates/vue2/src/App.vue).
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Design System](#design-system)
+- [Development](#development)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Usage
+## Introduction
 
-For development, run the application locally with
+The Storyblok Vue 3 Field Plugin provides a foundational setup for building custom field plugins for Storyblok. Leveraging Vue 3 and TypeScript, it offers a range of base functionalities to streamline the development process.
 
-```shell
-npm run dev
+## Installation
+
+To get started with the plugin, clone the repository and install the dependencies:
+
+```bash
+git clone https://github.com/sensiolabs-de/storyblok-plugins.git
 ```
 
-and open the [Sandbox](https://plugin-sandbox.storyblok.com/field-plugin/).
+You have to create a `.env` file in the root of this repository like the following:
 
-To build the project, run
-
-```shell
-npm run build
+```text
+STORYBLOK_PERSONAL_ACCESS_TOKEN=xxxxxxxx
 ```
 
-Deploy the field plugin with the CLI. Issue a [personal access token](https://app.storyblok.com/#/me/account?tab=token), rename `.env.local.example` to `.env.example`, open the file, set the value `STORYBLOK_PERSONAL_ACCESS_TOKEN`, and run
+Now you are able to deploy this plugin to your workspace:
 
-```shell
-npm run deploy
+```bash
+npm run deploy --workspace=sensiolabs-iconify-plugin
 ```
 
-## Manifest File for Field Plugins
+## Configuration
 
-The manifest file is a configuration that enhances the functionality of your field plugin. This JSON file, named `field-plugin.config.json` and located in your project's root folder, is optional but highly recommended.
+The plugin includes integration with [iconify.design](https://iconify.design/), allowing you to search for and use a wide range of icons. You can configure icon sets with specific prefixes to restrict the icons available for selection.
 
-The manifest file allows you to configure [options](https://www.storyblok.com/docs/plugins/field-plugins/introduction#options) for your field plugin. When developing your field plugin with the [Sandbox](https://plugin-sandbox.storyblok.com/field-plugin/), the options are applied by default. Also, the deploy command automatically applies the options in production. So, you no longer need to configure the options manually.
+### Setting Icon Prefixes
 
-### Configuring a Manifest File
-
-The options list within the file `field-plugin.config.json` should consist of key-value objects representing the essential options required for your field plugin to function correctly, along with their corresponding values. This is an example of how it should be structured:
+To restrict icon sets, add the `prefixes` configuration as a comma-separated list. For example:
 
 ```json
 {
-  "options": [
-    {
-      "name": "myPluginInitialValue",
-      "value": 100
-    }
-  ]
+  "prefixes": "fa-,mdi-"
 }
 ```
 
-Now, you just need to access these options in your code like in the example below:
+![configuration-preview.png](docs/configuration-preview.png)
 
-```js
-const { type, data, actions } = useFieldPlugin()
+This configuration ensures that only icons with the specified prefixes (e.g., FontAwesome and Material Design Icons) are available.
 
-console.log(data.options.myPluginInitialValue)
-```
+## Design System
 
-## Next Steps
+This project utilizes the [blok.ink](https://www.storyblok.com/docs/guide/in-depth/design-system) design system provided by Storyblok. The design system allows developers to create integrated experiences that align with Storyblok's overall design aesthetic.
 
-Read more about field plugins [on GitHub](https://github.com/storyblok/field-plugin).
+## Development
 
-Set up continuous integration with the [CLI](https://www.npmjs.com/package/@storyblok/field-plugin-cli). Define an environmental variable `STORYBLOK_PERSONAL_ACCESS_TOKEN`, and use the `--name` and `--skipPrompts` options as such:
+To develop and test your custom plugin, follow these steps:
 
-```shell
-npm run deploy --name $NAME --skipPrompts
-```
+1. Clone the repository and navigate to the project directory.
+2. Install the dependencies using `npm install`.
+3. Start the development server using `npm run serve`.
+4. Make changes to the plugin and see the updates in real-time.
 
-[@storyblok/design-system](https://www.npmjs.com/package/@storyblok/design-system) is Storyblok's component library for Vue. To add it to this project, follow the instructions in the [readme](https://www.npmjs.com/package/@storyblok/design-system).
+### Available Scripts
 
-## Clean up the boilerplate
+- `npm run serve`: Starts the development server.
 
-To start from a blank state, replace the example component `<FieldPluginExample />` from `src/App.vue` with `<FieldPlugin />`.
+## Contributing
 
-## Continuous delivery
+Contributions are welcome! If you have any ideas, suggestions, or issues, please feel free to submit a pull request or open an issue on the repository.
 
-Set up [continuous delivery](https://www.storyblok.com/docs/plugins/field-plugins/continuous-delivery) with the CLI. Define an environmental variable `STORYBLOK_PERSONAL_ACCESS_TOKEN`, and use the `--name` and `--skipPrompts` options as such:
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix.
+3. Commit your changes and push the branch.
+4. Submit a pull request with a detailed description of your changes.
 
-```shell
-npm run deploy --name $NAME --skipPrompts
-```
+## License
 
-## Design system
-
-We created our [blok.ink](https://www.storyblok.com/docs/guide/in-depth/design-system) design system to allow our customers to build great integrated experiences while maintaining Storyblok's overall design.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.

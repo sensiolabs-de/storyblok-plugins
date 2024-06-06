@@ -1,8 +1,6 @@
 <template>
   <div class="sb-mt-4">
-    <SbAssetField
-      v-model="value.twitterImage"
-    />
+    <SbAssetField v-model="value.twitterImage" />
   </div>
   <div class="sb-mt-8 sb-mb-6">
     <SbRadio
@@ -74,7 +72,7 @@ import SbAssetField from './SbAssetField.vue'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps<{
-  modelValue: Data,
+  modelValue: Data
   requirements?: Requirements
 }>()
 

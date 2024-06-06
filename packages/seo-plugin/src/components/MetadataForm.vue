@@ -27,8 +27,8 @@ import { type Data, type Requirements } from '../interfaces/metadata'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps<{
-  modelValue: Data,
-  requirements?: Requirements,
+  modelValue: Data
+  requirements?: Requirements
 }>()
 
 const value = ref<Data>(props.modelValue)

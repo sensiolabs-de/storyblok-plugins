@@ -1,4 +1,4 @@
-import {createApp, Plugin} from 'vue'
+import { createApp, Plugin } from 'vue'
 import SeoPlugin from './SeoPlugin.vue'
 import '@storyblok/design-system/dist/storyblok-design-system.css'
 import BlokInk from '@storyblok/design-system'

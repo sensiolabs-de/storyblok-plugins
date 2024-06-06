@@ -24,5 +24,5 @@ export interface Requirements {
 }
 
 export interface Defaults {
-  [key: string]: string|null|boolean|number
+  [key: string]: string | null | boolean | number
 }

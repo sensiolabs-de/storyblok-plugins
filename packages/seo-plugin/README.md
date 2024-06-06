@@ -1,88 +1,113 @@
-# Storyblok Vue 3 Field Plugin
+# sensiolabs-seo-plugin
 
-This project was created using Vue 3 and Typescript. It consists of a set of base functionalities, such as value updating, modal toggling and asset selection. This starter is intended to help developers when creating their own Storyblok Field Plugin.
+![preview.gif](docs/preview.gif)
 
-## Composition API vs Options API
+This project was created using Vue 3 and TypeScript. It consists of a set of base functionalities, such as value updating, modal toggling, and asset selection. This starter is intended to help developers when creating their own Storyblok Field Plugin.
 
-You can choose either option. This template is written using the Composition API, and you can view the implementation in the `src/useFieldPlugin.ts` file.
+## Table of Contents
 
-If you prefer to use the Options API, you can refer to [the Vue 2 template](https://github.com/storyblok/field-plugin/blob/main/packages/cli/templates/vue2/src/App.vue).
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Design System](#design-system)
+- [Development](#development)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Usage
+## Introduction
 
-For development, run the application locally with
+The Storyblok Vue 3 Field Plugin provides a foundational setup for building custom field plugins for Storyblok. Leveraging Vue 3 and TypeScript, it offers a range of base functionalities to streamline the development process.
 
-```shell
-npm run dev
+This specific plugin is designed to manage SEO fields, including:
+
+- title
+- description
+- ogTitle
+- ogDescription
+- ogImage
+- twitterImage
+- twitterCard
+- twitterSite
+- twitterCreator
+- twitterTitle
+- twitterDescription
+
+## Installation
+
+To get started with the plugin, clone the repository and install the dependencies:
+
+```bash
+git clone https://github.com/sensiolabs-de/storyblok-plugins.git
 ```
 
-and open the [Sandbox](https://plugin-sandbox.storyblok.com/field-plugin/).
+You have to create a `.env` file in the root of this repository like the following:
 
-To build the project, run
-
-```shell
-npm run build
+```text
+STORYBLOK_PERSONAL_ACCESS_TOKEN=xxxxxxxx
 ```
 
-Deploy the field plugin with the CLI. Issue a [personal access token](https://app.storyblok.com/#/me/account?tab=token), rename `.env.local.example` to `.env.example`, open the file, set the value `STORYBLOK_PERSONAL_ACCESS_TOKEN`, and run
+Now you are able to deploy this plugin to your workspace:
 
-```shell
-npm run deploy
+```bash
+npm run deploy --workspace=sensiolabs-seo-plugin
 ```
 
-## Manifest File for Field Plugins
+## Configuration
 
-The manifest file is a configuration that enhances the functionality of your field plugin. This JSON file, named `field-plugin.config.json` and located in your project's root folder, is optional but highly recommended.
+The plugin includes fields for various SEO and social media metadata. It allows configuration of field requirements and default values.
 
-The manifest file allows you to configure [options](https://www.storyblok.com/docs/plugins/field-plugins/introduction#options) for your field plugin. When developing your field plugin with the [Sandbox](https://plugin-sandbox.storyblok.com/field-plugin/), the options are applied by default. Also, the deploy command automatically applies the options in production. So, you no longer need to configure the options manually.
+### Setting Field Requirements and Defaults
 
-### Configuring a Manifest File
+You can configure the fields using the `requirements` and `defaults` settings. The `requirements` setting specifies whether a field is required and its maximum length. The `defaults` setting allows you to set default static values for fields.
 
-The options list within the file `field-plugin.config.json` should consist of key-value objects representing the essential options required for your field plugin to function correctly, along with their corresponding values. This is an example of how it should be structured:
+#### Requirements Configuration
 
 ```json
 {
-  "options": [
-    {
-      "name": "myPluginInitialValue",
-      "value": 100
-    }
-  ]
+  "name": "requirements",
+  "value": "{\"title\":{\"required\":true},\"description\":{\"required\":true},\"ogTitle\":{\"required\":false,\"maxLength\":70},\"ogDescription\":{\"required\":false,\"maxLength\":200},\"twitterTitle\":{\"required\":false,\"maxLength\":70},\"twitterDescription\":{\"required\":false,\"maxLength\":200},\"twitterSite\":{\"required\":false},\"twitterCreator\":{\"required\":false},\"twitterCard\":{\"required\":false}}"
 }
 ```
 
-Now, you just need to access these options in your code like in the example below:
+#### Defaults Configuration
 
-```js
-const { type, data, actions } = useFieldPlugin()
-
-console.log(data.options.myPluginInitialValue)
+```json
+{
+  "name": "defaults",
+  "value": "{\"twitterSite\":\"@sensiolabs\"}"
+}
 ```
 
-## Next Steps
+![configuration-preview.png](docs/configuration-preview.png)
 
-Read more about field plugins [on GitHub](https://github.com/storyblok/field-plugin).
+These configurations ensure that your fields adhere to the required and maximum length restrictions and have appropriate default values.
 
-Set up continuous integration with the [CLI](https://www.npmjs.com/package/@storyblok/field-plugin-cli). Define an environmental variable `STORYBLOK_PERSONAL_ACCESS_TOKEN`, and use the `--name` and `--skipPrompts` options as such:
+## Design System
 
-```shell
-npm run deploy --name $NAME --skipPrompts
-```
+This project utilizes the [blok.ink](https://www.storyblok.com/docs/guide/in-depth/design-system) design system provided by Storyblok. The design system allows developers to create integrated experiences that align with Storyblok's overall design aesthetic.
 
-[@storyblok/design-system](https://www.npmjs.com/package/@storyblok/design-system) is Storyblok's component library for Vue. To add it to this project, follow the instructions in the [readme](https://www.npmjs.com/package/@storyblok/design-system).
+## Development
 
-## Clean up the boilerplate
+To develop and test your custom plugin, follow these steps:
 
-To start from a blank state, replace the example component `<FieldPluginExample />` from `src/App.vue` with `<FieldPlugin />`.
+1. Clone the repository and navigate to the project directory.
+2. Install the dependencies using `npm install`.
+3. Start the development server using `npm run serve`.
+4. Make changes to the plugin and see the updates in real-time.
 
-## Continuous delivery
+### Available Scripts
 
-Set up [continuous delivery](https://www.storyblok.com/docs/plugins/field-plugins/continuous-delivery) with the CLI. Define an environmental variable `STORYBLOK_PERSONAL_ACCESS_TOKEN`, and use the `--name` and `--skipPrompts` options as such:
+- `npm run serve`: Starts the development server.
 
-```shell
-npm run deploy --name $NAME --skipPrompts
-```
+## Contributing
 
-## Design system
+Contributions are welcome! If you have any ideas, suggestions, or issues, please feel free to submit a pull request or open an issue on the repository.
 
-We created our [blok.ink](https://www.storyblok.com/docs/guide/in-depth/design-system) design system to allow our customers to build great integrated experiences while maintaining Storyblok's overall design.
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix.
+3. Commit your changes and push the branch.
+4. Submit a pull request with a detailed description of your changes.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.

@@ -1,8 +1,6 @@
 <template>
   <div class="sb-mt-4">
-    <SbAssetField
-      v-model="value.ogImage"
-    />
+    <SbAssetField v-model="value.ogImage" />
   </div>
   <div class="sb-mt-4">
     <SbTextField
@@ -33,12 +31,11 @@ import SbAssetField from './SbAssetField.vue'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps<{
-  modelValue: Data,
-  requirements?: Requirements,
+  modelValue: Data
+  requirements?: Requirements
 }>()
 
 const value = ref<Data>(props.modelValue)
 
 watch(value, () => emit('update:modelValue', value.value), { deep: true })
-
 </script>
