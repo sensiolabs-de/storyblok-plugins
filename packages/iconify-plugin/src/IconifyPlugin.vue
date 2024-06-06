@@ -102,6 +102,7 @@ watch(query, () => {
   if ('' === query.value) {
     return
   }
+  //test
 
   const url = new URL('https://api.iconify.design/search')
   url.searchParams.set('query', query.value)
