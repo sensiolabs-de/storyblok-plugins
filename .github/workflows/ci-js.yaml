@@ -22,7 +22,7 @@ env:
 
 jobs:
   lint:
-    name: 'Coding Standards'
+    name: 'Prettify Files'
 
     runs-on: 'ubuntu-latest'
 
