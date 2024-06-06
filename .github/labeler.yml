@@ -1,24 +1,24 @@
 dependency:
-    - changed-files:
-        - any-glob-to-any-file:
-            - package.json
-            - package-lock.json
-            - packages/seo-plugin/package.json
-            - packages/seo-plugin/package-lock.json
-            - packages/iconify-plugin/package.json
-            - packages/iconify-plugin/package-lock.json
+  - changed-files:
+      - any-glob-to-any-file:
+          - package.json
+          - package-lock.json
+          - packages/seo-plugin/package.json
+          - packages/seo-plugin/package-lock.json
+          - packages/iconify-plugin/package.json
+          - packages/iconify-plugin/package-lock.json
 
 'Github Actions':
-    - changed-files:
-        - any-glob-to-any-file:
-            - '.github/workflows/**'
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/workflows/**'
 
 'SEO Plugin':
-    - changed-files:
-          - any-glob-to-any-file:
-                - 'packages/seo-plugin/**'
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'packages/seo-plugin/**'
 
 'Iconify Plugin':
-    - changed-files:
-          - any-glob-to-any-file:
-                - 'packages/iconify-plugin/**'
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'packages/iconify-plugin/**'
