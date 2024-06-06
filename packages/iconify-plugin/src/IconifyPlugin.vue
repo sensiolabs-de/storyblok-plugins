@@ -99,8 +99,7 @@ const loading = ref<boolean>(false)
 const changeIcon = ref<boolean>(false)
 
 watch(query, () => {
-  if ('' === query.value)
-  {
+  if ('' === query.value) {
     return
   }
 
