@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { Icon } from '@iconify/vue'
 import axios from 'axios'
 import { useFieldPlugin } from '@storyblok/field-plugin/vue3'
@@ -99,7 +99,8 @@ const loading = ref<boolean>(false)
 const changeIcon = ref<boolean>(false)
 
 watch(query, () => {
-  if ('' === query.value) {
+  if ('' === query.value)
+  {
     return
   }
 

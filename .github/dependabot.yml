@@ -3,18 +3,17 @@
 version: 2
 
 updates:
-    -
-        allow:
-            - dependency-type: "direct"
-        commit-message:
-            include: "scope"
-            prefix: "npm"
-        directory: "/"
-        labels:
-            - "dependency"
-            - "automerge"
-        open-pull-requests-limit: 5
-        package-ecosystem: "npm"
-        schedule:
-            interval: "daily"
-        versioning-strategy: "lockfile-only"
+  - allow:
+      - dependency-type: 'direct'
+    commit-message:
+      include: 'scope'
+      prefix: 'npm'
+    directory: '/'
+    labels:
+      - 'dependency'
+      - 'automerge'
+    open-pull-requests-limit: 5
+    package-ecosystem: 'npm'
+    schedule:
+      interval: 'daily'
+    versioning-strategy: 'lockfile-only'

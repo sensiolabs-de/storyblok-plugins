@@ -1,7 +1,7 @@
 # SensioLabs - Storyblok Plugins
 
-* [Iconify Plugin](packages/iconify-plugin/README.md)
-* [SEO Plugin](packages/seo-plugin/README.md)
+- [Iconify Plugin](packages/iconify-plugin/README.md)
+- [SEO Plugin](packages/seo-plugin/README.md)
 
 ### Deploying
 

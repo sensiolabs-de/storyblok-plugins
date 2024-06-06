@@ -1,146 +1,113 @@
-name: "Frontend CI"
+name: 'Frontend CI'
 
 on: # yamllint disable-line rule:truthy
   pull_request:
     paths:
-      - ".github/workflows/ci.yaml"
-      - "**"
+      - '.github/workflows/ci.yaml'
+      - '**'
   push:
     branches:
-      - "master"
+      - 'master'
     paths:
-      - ".github/workflows/ci.yaml"
-      - "**"
+      - '.github/workflows/ci.yaml'
+      - '**'
 
 defaults:
   run:
-    working-directory: "./"
+    working-directory: './'
 
 env:
-  SENSIOLABS_DE_BOT_EMAIL: "bot@sensiolabs.de"
-  SENSIOLABS_DE_BOT_NAME: "sensiolabs-bot"
+  SENSIOLABS_DE_BOT_EMAIL: 'bot@sensiolabs.de'
+  SENSIOLABS_DE_BOT_NAME: 'sensiolabs-bot'
 
 jobs:
   lint:
-    name: "Coding Standards"
+    name: 'Coding Standards'
 
-    runs-on: "ubuntu-latest"
+    runs-on: 'ubuntu-latest'
 
     strategy:
       matrix:
         node-version:
-          - "18.16"
+          - '18.16'
 
     steps:
-      - name: "Checkout"
-        if: github.actor != 'dependabot[bot]'
-        uses: "actions/checkout@v4"
+      - name: 'Checkout'
+        uses: 'actions/checkout@v4'
         with:
-          ref: "${{ github.head_ref }}"
-          token: "${{ secrets.SENSIOLABS_DE_BOT_TOKEN }}"
+          ref: '${{ github.head_ref }}'
 
-      - if: github.actor == 'dependabot[bot]'
-        name: "Checkout"
-        uses: "actions/checkout@v4"
+      - name: 'Install Node.js'
+        uses: 'actions/setup-node@v2.1.4'
         with:
-          ref: "${{ github.head_ref }}"
+          node-version: '${{ matrix.node-version }}'
 
-      - name: "Install Node.js"
-        uses: "actions/setup-node@v2.1.4"
-        with:
-          node-version: "${{ matrix.node-version }}"
+      - name: 'Install dependencies with npm'
+        run: 'npm install'
 
-      - name: "Install dependencies with npm"
-        run: "npm install"
-
-      - name: "Run prettier"
-        run: "npm run prettier"
-
-      - name: "Commit files fixed with prettier"
-        uses: "stefanzweifel/git-auto-commit-action@v4.8.0"
-        with:
-          branch: "${{ github.head_ref }}"
-          commit_author: "${{ env.SENSIOLABS_DE_BOT_NAME }} <${{ env.SENSIOLABS_DE_BOT_EMAIL }}>"
-          commit_message: "Fix: Run 'prettier . --write'"
-          commit_user_email: "${{ env.SENSIOLABS_DE_BOT_EMAIL }}"
-          commit_user_name: "${{ env.SENSIOLABS_DE_BOT_NAME }}"
+      - name: 'Run prettier'
+        run: 'npm run prettier'
 
   typescript:
-    name: "Typescript Coding Standards"
+    name: 'Typescript Coding Standards'
 
-    runs-on: "ubuntu-latest"
+    runs-on: 'ubuntu-latest'
 
     strategy:
       matrix:
         node-version:
-          - "18.16"
+          - '18.16'
         plugin:
-          - "iconify-plugin"
-          - "seo-plugin"
+          - 'iconify-plugin'
+          - 'seo-plugin'
 
     steps:
-      - name: "Checkout"
-        if: github.actor != 'dependabot[bot]'
-        uses: "actions/checkout@v4"
+      - name: 'Checkout'
+        uses: 'actions/checkout@v4'
         with:
-          ref: "${{ github.head_ref }}"
-          token: "${{ secrets.DATANA_BOT_TOKEN }}"
+          ref: '${{ github.head_ref }}'
 
-      - if: github.actor == 'dependabot[bot]'
-        name: "Checkout"
-        uses: "actions/checkout@v4"
+      - name: 'Install Node.js'
+        uses: 'actions/setup-node@v2.1.4'
         with:
-          ref: "${{ github.head_ref }}"
+          node-version: '${{ matrix.node-version }}'
 
-      - name: "Install Node.js"
-        uses: "actions/setup-node@v2.1.4"
-        with:
-          node-version: "${{ matrix.node-version }}"
+      - name: 'Install dependencies with npm'
+        working-directory: '${{matrix.plugin}}'
+        run: 'npm install'
 
-      - name: "Install dependencies with npm"
-        working-directory: "${{matrix.plugin}}"
-        run: "npm install"
-
-      - name: "Run vue-tsc"
-        working-directory: "${{matrix.plugin}}"
-        run: "npm run tsc"
+      - name: 'Run vue-tsc'
+        working-directory: '${{matrix.plugin}}'
+        run: 'npm run tsc'
 
   build:
-    name: "Build"
+    name: 'Build'
 
-    runs-on: "ubuntu-latest"
+    runs-on: 'ubuntu-latest'
 
     strategy:
       matrix:
         node-version:
-          - "18.16"
+          - '18.16'
         plugin:
-          - "iconify-plugin"
-          - "seo-plugin"
+          - 'iconify-plugin'
+          - 'seo-plugin'
 
     steps:
-      - name: "Checkout"
-        if: github.actor != 'dependabot[bot]'
-        uses: "actions/checkout@v4"
+      - name: 'Checkout'
+        uses: 'actions/checkout@v4'
         with:
-          ref: "${{ github.head_ref }}"
-          token: "${{ secrets.DATANA_BOT_TOKEN }}"
+          ref: '${{ github.head_ref }}'
 
-      - if: github.actor == 'dependabot[bot]'
-        name: "Checkout"
-        uses: "actions/checkout@v4"
+      - name: 'Install Node.js'
+        uses: 'actions/setup-node@v2.1.4'
         with:
-          ref: "${{ github.head_ref }}"
+          node-version: '${{ matrix.node-version }}'
 
-      - name: "Install Node.js"
-        uses: "actions/setup-node@v2.1.4"
-        with:
-          node-version: "${{ matrix.node-version }}"
+      - name: 'Install dependencies with npm'
+        working-directory: '${{matrix.plugin}}'
+        run: 'npm install'
 
-      - name: "Install dependencies with npm"
-        working-directory: "${{matrix.plugin}}"
-        run: "npm install"
-
-      - name: "Run prettier"
-        working-directory: "${{matrix.plugin}}"
-        run: "npm run build"
+      - name: 'Run prettier'
+        working-directory: '${{matrix.plugin}}'
+        run: 'npm run build'
