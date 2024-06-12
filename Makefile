@@ -4,3 +4,4 @@
 deploy-all:
 	@npm run deploy --workspace=sensiolabs-iconify-plugin
 	@npm run deploy --workspace=sensiolabs-seo-plugin
+	@npm run deploy --workspace=sensiolabs-country-select-plugin
