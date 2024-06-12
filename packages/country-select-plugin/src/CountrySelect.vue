@@ -1,5 +1,5 @@
 <template>
-  <div style="min-height: 300px;">
+  <div style="min-height: 200px;">
     <SbSelect
       label="Choose an option"
       :options="options"
@@ -43,15 +43,25 @@ watch(() => plugin.type, () => {
       return
     }
 
-  if (plugin?.data?.content) {
-    if (Array.isArray(plugin.data.content)) {
-      values.value = plugin.data.content as string[]
-    } else {
-      values.value = plugin.data.content as string
-    }
-  }
-
     multiple.value = plugin?.data?.options?.multiple === 'true'
+
+
+    if (plugin?.data?.content) {
+      if (Array.isArray(plugin.data.content)) {
+        if (!multiple.value) {
+          values.value = (plugin.data.content as string[])[0]
+        } else {
+          values.value = plugin.data.content as string[]
+        }
+      } else {
+        if (!multiple.value) {
+          values.value = plugin.data.content as string
+        } else {
+          values.value = [plugin.data.content as string]
+        }
+      }
+    }
+
   },
 )
 
