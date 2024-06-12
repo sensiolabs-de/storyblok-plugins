@@ -1,0 +1,59 @@
+<template>
+  <div style="min-height: 300px;">
+    <SbSelect
+      label="Choose an option"
+      :options="options"
+      :multiple="multiple"
+      :filterable="true"
+      :first-value-is-all-value="false"
+      no-data-text="Sorry, no result found."
+      no-data-text-tag="Start typing to add new tag."
+      :allow-create="false"
+      :clearable="false"
+      :disable-internal-search="false"
+      :show-count="false"
+      v-model="values"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { useFieldPlugin } from '@storyblok/field-plugin/vue3'
+import { registerLocale, getNames } from 'i18n-iso-countries'
+import { countryCode } from 'emoji-flags'
+import en from 'i18n-iso-countries/langs/en.json'
+
+registerLocale(en)
+
+const plugin = useFieldPlugin()
+
+const options = computed(() => {
+  return Object.entries(getNames('en', { select: 'official' })).map(([code, name]) => ({
+    label: `${countryCode(code)?.emoji || ''} ${name}`,
+    value: code
+  }))
+})
+
+const values = ref<string[]|string>('')
+const multiple = ref<boolean>()
+
+watch(() => plugin.type, () => {
+    if (plugin.type !== 'loaded') {
+      return
+    }
+
+  if (plugin?.data?.content) {
+    if (Array.isArray(plugin.data.content)) {
+      values.value = plugin.data.content as string[]
+    } else {
+      values.value = plugin.data.content as string
+    }
+  }
+
+    multiple.value = plugin?.data?.options?.multiple === 'true'
+  },
+)
+
+watch(values, () => plugin.actions?.setContent(values.value))
+</script>
