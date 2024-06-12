@@ -1,5 +1,5 @@
 <template>
-  <div style="min-height: 200px;">
+  <div style="min-height: 200px">
     <SbSelect
       label="Choose an option"
       :options="options"
@@ -29,22 +29,25 @@ registerLocale(en)
 const plugin = useFieldPlugin()
 
 const options = computed(() => {
-  return Object.entries(getNames('en', { select: 'official' })).map(([code, name]) => ({
-    label: `${countryCode(code)?.emoji || ''} ${name}`,
-    value: code
-  }))
+  return Object.entries(getNames('en', { select: 'official' })).map(
+    ([code, name]) => ({
+      label: `${countryCode(code)?.emoji || ''} ${name}`,
+      value: code,
+    }),
+  )
 })
 
-const values = ref<string[]|string>('')
+const values = ref<string[] | string>('')
 const multiple = ref<boolean>()
 
-watch(() => plugin.type, () => {
+watch(
+  () => plugin.type,
+  () => {
     if (plugin.type !== 'loaded') {
       return
     }
 
     multiple.value = plugin?.data?.options?.multiple === 'true'
-
 
     if (plugin?.data?.content) {
       if (Array.isArray(plugin.data.content)) {
@@ -61,7 +64,6 @@ watch(() => plugin.type, () => {
         }
       }
     }
-
   },
 )
 
