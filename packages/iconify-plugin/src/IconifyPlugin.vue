@@ -97,6 +97,7 @@ const query = ref<string>('')
 const icons = ref<string[]>([])
 const loading = ref<boolean>(false)
 const changeIcon = ref<boolean>(false)
+const prefixes = ref<string>('fa6-solid,fa6-regular,fa6-brands')
 
 watch(query, () => {
   if ('' === query.value) {
@@ -105,7 +106,7 @@ watch(query, () => {
 
   const url = new URL('https://api.iconify.design/search')
   url.searchParams.set('query', query.value)
-  url.searchParams.set('prefixes', 'fa-solid,fa-regular,fa-brands')
+  url.searchParams.set('prefixes', prefixes.value)
 
   loading.value = true
 
@@ -119,7 +120,6 @@ watch(query, () => {
 })
 
 const selected = ref<string>('')
-const prefixes = ref<string>('')
 
 watch(plugin, () => {
   selected.value = (plugin?.data?.content as string) ?? ''
