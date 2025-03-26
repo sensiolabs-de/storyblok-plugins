@@ -6,6 +6,6 @@
 ### Deploying
 
 ```bash
-npm run deploy --workspace=sensiolabs-iconify-plugin
-npm run deploy --workspace=sensiolabs-seo-plugin
+npm run deploy --workspace=sensiolabs-de-iconify-plugin
+npm run deploy --workspace=sensiolabs-de-seo-plugin
 ```
