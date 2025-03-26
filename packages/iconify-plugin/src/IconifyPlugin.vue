@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="selected"
+    v-if="0 !== selected.length"
     style="
       display: flex;
       flex-direction: row;
@@ -136,7 +136,7 @@ const unsetIcon = (): void => {
   changeIcon.value = true
 }
 
-watch(selected, () => {
+watch(() => selected.value, () => {
   plugin.actions?.setContent(selected.value)
 })
 </script>
