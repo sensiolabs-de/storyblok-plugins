@@ -2,7 +2,7 @@
   "options": [
     {
       "name": "multiple",
-      "value": true
+      "value": "true"
     }
   ]
 }
