@@ -3,6 +3,6 @@
 .PHONY: deploy-all
 deploy-all:
 	@npm run deploy --workspace=sensiolabs-de-iconify-plugin
-	@npm run deploy --workspace=sensiolabs-de-seo-plugin
+	@npm run deploy --workspace=sensiolabs-de-advanced-seo-plugin
 	@npm run deploy --workspace=sensiolabs-de-country-select-plugin
 	@npm run deploy --workspace=sensiolabs-de-language-select-plugin
