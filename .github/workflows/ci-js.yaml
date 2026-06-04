@@ -29,7 +29,7 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - '18.16'
+          - '25.9'
 
     steps:
       - name: 'Checkout'
@@ -38,7 +38,7 @@ jobs:
           ref: '${{ github.head_ref }}'
 
       - name: 'Install Node.js'
-        uses: 'actions/setup-node@v2.1.4'
+        uses: 'actions/setup-node@v4'
         with:
           node-version: '${{ matrix.node-version }}'
 
@@ -48,6 +48,33 @@ jobs:
       - name: 'Run prettier'
         run: 'npm run format:check'
 
+  eslint:
+    name: 'ESLint Coding Standards'
+
+    runs-on: 'ubuntu-latest'
+
+    strategy:
+      matrix:
+        node-version:
+          - '25.9'
+
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v4'
+        with:
+          ref: '${{ github.head_ref }}'
+
+      - name: 'Install Node.js'
+        uses: 'actions/setup-node@v4'
+        with:
+          node-version: '${{ matrix.node-version }}'
+
+      - name: 'Install dependencies with npm'
+        run: 'npm install'
+
+      - name: 'Run ESLint'
+        run: 'npm run lint'
+
   typescript:
     name: 'Typescript Coding Standards'
 
@@ -56,9 +83,11 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - '18.16'
+          - '25.9'
         plugin:
+          - 'country-select-plugin'
           - 'iconify-plugin'
+          - 'language-select-plugin'
           - 'seo-plugin'
 
     steps:
@@ -68,7 +97,7 @@ jobs:
           ref: '${{ github.head_ref }}'
 
       - name: 'Install Node.js'
-        uses: 'actions/setup-node@v2.1.4'
+        uses: 'actions/setup-node@v4'
         with:
           node-version: '${{ matrix.node-version }}'
 
@@ -88,9 +117,11 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - '18.16'
+          - '25.9'
         plugin:
+          - 'country-select-plugin'
           - 'iconify-plugin'
+          - 'language-select-plugin'
           - 'seo-plugin'
 
     steps:
@@ -100,7 +131,7 @@ jobs:
           ref: '${{ github.head_ref }}'
 
       - name: 'Install Node.js'
-        uses: 'actions/setup-node@v2.1.4'
+        uses: 'actions/setup-node@v4'
         with:
           node-version: '${{ matrix.node-version }}'
 
@@ -108,6 +139,6 @@ jobs:
         working-directory: 'packages/${{matrix.plugin}}'
         run: 'npm install'
 
-      - name: 'Run prettier'
+      - name: 'Run build'
         working-directory: 'packages/${{matrix.plugin}}'
         run: 'npm run build'

@@ -21,15 +21,15 @@
         variant="tertiary"
       >
         <SbButton
-          @click.stop="changeIcon = true"
           size="small"
           label="Change icon"
+          @click.stop="changeIcon = true"
         />
         <SbButton
           v-if="selected"
           icon="x"
-          @click.stop="unsetIcon"
           has-icon-only
+          @click.stop="unsetIcon"
         />
       </SbGroupButton>
     </div>
@@ -45,13 +45,13 @@
       :is-loading="loading"
     >
       <SbTextField
+        v-model="query"
         name="search"
         label="Search for an icon"
         :disabled="false"
         :required="false"
         placeholder="Type to start searching"
         :readonly="false"
-        v-model="query"
         :error="false"
         :clearable="true"
         :ghost="false"
@@ -66,10 +66,10 @@
       >
         <SbButton
           v-for="icon in icons"
-          @click.stop="setIcon(icon)"
           :key="icon"
           type="button"
           variant="tertiary"
+          @click.stop="setIcon(icon)"
         >
           <Icon
             :icon="icon"
@@ -136,9 +136,12 @@ const unsetIcon = (): void => {
   changeIcon.value = true
 }
 
-watch(() => selected.value, () => {
-  plugin.actions?.setContent(selected.value)
-})
+watch(
+  () => selected.value,
+  () => {
+    plugin.actions?.setContent(selected.value)
+  },
+)
 </script>
 
 <style scoped>

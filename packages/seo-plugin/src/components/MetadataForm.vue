@@ -1,19 +1,19 @@
 <template>
   <div class="sb-mt-4">
     <SbTextField
+      v-model="value.title"
       name="title"
       label="Title"
       :required="requirements?.title?.required ?? false"
-      v-model="value.title"
       :maxlength="requirements?.title?.maxLength ?? null"
     />
   </div>
   <div class="sb-mt-4">
     <SbTextField
+      v-model="value.description"
       name="description"
       label="Description"
       :required="requirements?.description?.required ?? false"
-      v-model="value.description"
       :maxlength="requirements?.description?.maxLength ?? null"
       :auto-grow="true"
       type="textarea"

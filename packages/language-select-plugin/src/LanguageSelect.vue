@@ -1,6 +1,7 @@
 <template>
   <div style="min-height: 200px">
     <SbSelect
+      v-model="values"
       label="Choose an option"
       :options="options"
       :multiple="multiple"
@@ -12,7 +13,6 @@
       :clearable="false"
       :disable-internal-search="false"
       :show-count="false"
-      v-model="values"
     />
   </div>
 </template>
