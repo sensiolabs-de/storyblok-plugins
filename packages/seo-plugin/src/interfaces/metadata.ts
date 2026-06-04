@@ -3,6 +3,7 @@ import { Asset } from '@storyblok/field-plugin'
 export interface Data {
   title: string
   description: string
+  noIndex: boolean
   ogTitle: string
   ogDescription: string
   ogImage: Asset | null

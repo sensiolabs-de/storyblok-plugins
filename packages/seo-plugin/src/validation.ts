@@ -7,6 +7,7 @@ import { type Data, type Requirements } from './interfaces/metadata'
 export const FIELD_LABELS: Record<keyof Data, string> = {
   title: 'Title',
   description: 'Description',
+  noIndex: 'No index',
   ogTitle: 'OG Title',
   ogDescription: 'OG Description',
   ogImage: 'OG Image',
