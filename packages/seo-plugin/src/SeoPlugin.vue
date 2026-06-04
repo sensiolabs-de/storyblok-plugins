@@ -1,11 +1,8 @@
 <template>
   <SbTabMenu
-    :model="[
-      { label: 'Global', action: () => (currentTab = 0) },
-      { label: 'Open graph', action: () => (currentTab = 1) },
-      { label: 'Twitter/ X', action: () => (currentTab = 2) },
-    ]"
+    :model="tabs"
     :active-index="currentTab"
+    :scrollable="false"
   >
     <template #item="{ item }">
       <a
@@ -16,6 +13,12 @@
         @click.stop.prevent="item.action()"
       >
         {{ item.label }}
+        <SbIcon
+          v-if="item.hasError"
+          name="alert-triangle"
+          color="negative"
+          size="small"
+        />
       </a>
     </template>
   </SbTabMenu>
@@ -64,6 +67,7 @@ const currentTab = ref()
 const data = ref<Data>({
   title: '',
   description: '',
+  noIndex: false,
   ogTitle: '',
   ogDescription: '',
   ogImage: null,
@@ -94,6 +98,33 @@ let loading = false
 
 const errors = computed(() =>
   dirty.value ? validate(data.value, requirements.value) : {},
+)
+
+// Which metadata fields live behind each tab, so a tab can flag when one of
+// its fields is invalid.
+const tabFields: Record<number, (keyof Data)[]> = {
+  0: ['title', 'description', 'noIndex'],
+  1: ['ogTitle', 'ogDescription', 'ogImage'],
+  2: [
+    'twitterCard',
+    'twitterTitle',
+    'twitterDescription',
+    'twitterImage',
+    'twitterSite',
+    'twitterCreator',
+  ],
+}
+
+const tabs = computed(() =>
+  [
+    { label: 'Global', index: 0 },
+    { label: 'Open graph', index: 1 },
+    { label: 'Twitter / X', index: 2 },
+  ].map((tab) => ({
+    ...tab,
+    action: () => (currentTab.value = tab.index),
+    hasError: tabFields[tab.index].some((field) => errors.value[field]),
+  })),
 )
 
 const setDefaults = (value: Data, defaults?: Defaults): Data => {
@@ -169,5 +200,21 @@ watch(
 .sl-content {
   width: 100%;
   min-height: 300px;
+}
+
+/* Stretch the tab menu so the tabs fill the full width evenly. SbTabMenu has
+   no prop for this, so we extend its design-system classes. */
+:deep(.sb-tab-menu),
+:deep(.sb-tab-menu__container),
+:deep(.sb-tab-menu__menu) {
+  width: 100%;
+}
+
+:deep(.sb-tab-menu__menu-item) {
+  flex: 1;
+}
+
+:deep(.sb-tab-menu__action) {
+  width: 100%;
 }
 </style>
