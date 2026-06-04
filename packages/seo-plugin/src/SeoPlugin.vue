@@ -22,27 +22,32 @@
 
   <SbCard as="div">
     <SbCardContent>
-      <metadata-form
-        v-if="currentTab === 0"
-        v-model="data"
-        :requirements="requirements"
-      />
-      <og-metadata-form
-        v-else-if="currentTab === 1"
-        v-model="data"
-        :requirements="requirements"
-      />
-      <twitter-metadata-form
-        v-else-if="currentTab === 2"
-        v-model="data"
-        :requirements="requirements"
-      />
+      <div class="sl-content">
+        <metadata-form
+          v-if="currentTab === 0"
+          v-model="data"
+          :requirements="requirements"
+          :errors="errors"
+        />
+        <og-metadata-form
+          v-else-if="currentTab === 1"
+          v-model="data"
+          :requirements="requirements"
+          :errors="errors"
+        />
+        <twitter-metadata-form
+          v-else-if="currentTab === 2"
+          v-model="data"
+          :requirements="requirements"
+          :errors="errors"
+        />
+      </div>
     </SbCardContent>
   </SbCard>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useFieldPlugin } from '@storyblok/field-plugin/vue3'
 import MetadataForm from './components/MetadataForm.vue'
 import OgMetadataForm from './components/OgMetadataForm.vue'
@@ -52,10 +57,44 @@ import {
   type Defaults,
   type Requirements,
 } from './interfaces/metadata'
+import { validate, validationMessage } from './validation'
 
 const currentTab = ref()
 
-const plugin = useFieldPlugin()
+const data = ref<Data>({
+  title: '',
+  description: '',
+  ogTitle: '',
+  ogDescription: '',
+  ogImage: null,
+  twitterTitle: '',
+  twitterDescription: '',
+  twitterImage: null,
+  twitterSite: null,
+  twitterCreator: null,
+  twitterCard: 'summary',
+})
+
+const requirements = ref<Requirements>()
+
+// Storyblok calls `validateContent` before saving. Returning an `error`
+// prevents the story from being saved and surfaces the message in the editor.
+const plugin = useFieldPlugin({
+  validateContent: (content) => ({
+    content,
+    error: validationMessage(validate(content as Data, requirements.value)),
+  }),
+})
+
+// Inline errors are only shown once the editor has actually changed a field,
+// so a freshly loaded field never starts out covered in red. `loading` guards
+// the programmatic content/defaults assignment during load from flipping this.
+const dirty = ref(false)
+let loading = false
+
+const errors = computed(() =>
+  dirty.value ? validate(data.value, requirements.value) : {},
+)
 
 const setDefaults = (value: Data, defaults?: Defaults): Data => {
   const inner: Data = Object.assign({}, value)
@@ -81,28 +120,14 @@ const setDefaults = (value: Data, defaults?: Defaults): Data => {
   return inner
 }
 
-const data = ref<Data>({
-  title: '',
-  description: '',
-  ogTitle: '',
-  ogDescription: '',
-  ogImage: null,
-  twitterTitle: '',
-  twitterDescription: '',
-  twitterImage: null,
-  twitterSite: null,
-  twitterCreator: null,
-  twitterCard: 'summary',
-})
-
-const requirements = ref<Requirements>()
-
 watch(
   () => plugin.type,
   () => {
     if (plugin.type !== 'loaded') {
       return
     }
+
+    loading = true
 
     if (plugin?.data?.content && plugin?.data?.content !== '') {
       data.value = JSON.parse(JSON.stringify(plugin?.data?.content as Data))
@@ -118,12 +143,31 @@ watch(
       : undefined
 
     data.value = setDefaults(data.value, defaults)
+
+    // Release the guard after the assignments above have flushed through the
+    // `data` watcher, so only subsequent user edits mark the field dirty.
+    nextTick(() => {
+      loading = false
+    })
   },
 )
 
 watch(
   data,
-  () => plugin.actions?.setContent(JSON.parse(JSON.stringify(data.value))),
+  () => {
+    if (!loading) {
+      dirty.value = true
+    }
+
+    plugin.actions?.setContent(JSON.parse(JSON.stringify(data.value)))
+  },
   { deep: true },
 )
 </script>
+
+<style scoped>
+.sl-content {
+  width: 100%;
+  min-height: 300px;
+}
+</style>

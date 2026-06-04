@@ -6,6 +6,8 @@
       label="Title"
       :required="requirements?.title?.required ?? false"
       :maxlength="requirements?.title?.maxLength ?? null"
+      :error="!!errors?.title"
+      :error-message="errors?.title"
     />
   </div>
   <div class="sb-mt-4">
@@ -15,6 +17,8 @@
       label="Description"
       :required="requirements?.description?.required ?? false"
       :maxlength="requirements?.description?.maxLength ?? null"
+      :error="!!errors?.description"
+      :error-message="errors?.description"
       :auto-grow="true"
       type="textarea"
     />
@@ -24,11 +28,13 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { type Data, type Requirements } from '../interfaces/metadata'
+import { type ValidationErrors } from '../validation'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps<{
   modelValue: Data
   requirements?: Requirements
+  errors?: ValidationErrors
 }>()
 
 const value = ref<Data>(props.modelValue)

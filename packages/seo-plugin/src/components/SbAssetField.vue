@@ -51,6 +51,12 @@
       @click.stop="selectAsset"
     />
   </div>
+  <p
+    v-if="error"
+    class="sb-asset-field__error"
+  >
+    {{ error }}
+  </p>
 </template>
 
 <script setup lang="ts">
@@ -63,6 +69,7 @@ const plugin = useFieldPlugin()
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps<{
   modelValue: Asset | null
+  error?: string
 }>()
 
 const value = ref<Asset | null>(props.modelValue)
@@ -75,3 +82,11 @@ watch(value, () => emit('update:modelValue', Object.assign({}, value.value)), {
   deep: true,
 })
 </script>
+
+<style scoped>
+.sb-asset-field__error {
+  margin: 0.25rem 0 0;
+  color: #e6454a;
+  font-size: 0.75rem;
+}
+</style>
