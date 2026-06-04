@@ -37,8 +37,8 @@
         />
         <SbButton
           icon="x"
-          @click.stop="value = null"
           has-icon-only
+          @click.stop="value = null"
         />
       </SbGroupButton>
     </div>

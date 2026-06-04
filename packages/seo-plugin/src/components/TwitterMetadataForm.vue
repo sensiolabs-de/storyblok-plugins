@@ -4,36 +4,36 @@
   </div>
   <div class="sb-mt-8 sb-mb-6">
     <SbRadio
+      v-model="value.twitterCard"
       label="Summary"
       name="card"
       :required="requirements?.twitterCard?.required ?? false"
-      v-model="value.twitterCard"
       native-value="summary"
     />
     <div class="sb-mt-4">
       <SbRadio
+        v-model="value.twitterCard"
         label="Summary with large image"
         name="card"
-        v-model="value.twitterCard"
         native-value="summary_large_image"
       />
     </div>
   </div>
   <div class="sb-mt-4">
     <SbTextField
+      v-model="value.twitterTitle"
       name="twitterTitle"
       label="Title"
       :required="requirements?.twitterTitle?.required ?? false"
-      v-model="value.twitterTitle"
       :maxlength="requirements?.twitterTitle?.maxLength ?? null"
     />
   </div>
   <div class="sb-mt-4">
     <SbTextField
+      v-model="value.twitterDescription"
       name="twitterDescription"
       label="Description"
       :required="requirements?.twitterDescription?.required ?? false"
-      v-model="value.twitterDescription"
       :maxlength="requirements?.twitterDescription?.maxLength ?? null"
       :auto-grow="true"
       type="textarea"
@@ -41,11 +41,11 @@
   </div>
   <div class="sb-mt-4">
     <SbTextField
+      v-model="value.twitterSite"
       name="twitterSite"
       label="Site"
       prefix="@"
       :required="requirements?.twitterSite?.required ?? false"
-      v-model="value.twitterSite"
       placeholder="SensioLabs"
       :maxlength="requirements?.twitterSite?.maxLength ?? null"
       mask="X*"
@@ -53,11 +53,11 @@
   </div>
   <div class="sb-mt-4">
     <SbTextField
+      v-model="value.twitterCreator"
       name="twitterCreator"
       label="Creator"
       prefix="@"
       :required="requirements?.twitterCreator?.required ?? false"
-      v-model="value.twitterCreator"
       placeholder="JohnDoe"
       :maxlength="requirements?.twitterCreator?.maxLength ?? null"
       mask="X*"

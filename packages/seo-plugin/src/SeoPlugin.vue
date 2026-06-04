@@ -5,15 +5,15 @@
       { label: 'Open graph', action: () => (currentTab = 1) },
       { label: 'Twitter/ X', action: () => (currentTab = 2) },
     ]"
-    :activeIndex="currentTab"
+    :active-index="currentTab"
   >
-    <template #item="{ item, props }">
+    <template #item="{ item }">
       <a
-        @click.stop.prevent="item.action()"
         href="#"
         role="menuitem"
         class="sb-tab-menu__action sb-tab-menu__slot-item"
         style="color: black"
+        @click.stop.prevent="item.action()"
       >
         {{ item.label }}
       </a>
@@ -71,9 +71,9 @@ const setDefaults = (value: Data, defaults?: Defaults): Data => {
       continue
     }
 
-    // @ts-ignore
+    // @ts-expect-error indexing Data by a dynamic string key
     if (!inner[key]) {
-      // @ts-ignore
+      // @ts-expect-error indexing Data by a dynamic string key
       inner[key] = defaults[key]
     }
   }
