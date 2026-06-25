@@ -15,7 +15,7 @@
     "@storyblok/design-system": "^3.25.1",
     "@storyblok/field-plugin": "^1.7.1",
     "i18n-iso-countries": "^7.14.0",
-    "vue": "^3.5.38"
+    "vue": "^3.5.39"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
